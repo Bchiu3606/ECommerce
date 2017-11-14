@@ -1,0 +1,110 @@
+<!doctype HTML>
+    <html>
+    <head>
+    <style>
+        body{
+            background-color:lightblue;
+        }
+        img{
+            width:300px
+        }
+        input{
+            width:300px
+        }
+        #Item{
+            background-color:lightblue;
+            width:250px;
+            /*puts items next to each other, not on top of each other*/
+            display:inline-block;
+            /*puts a spacing in between the items*/
+            padding:50px;
+            
+            
+        }
+    </style>
+    <script>
+        //The Prices of the Items
+        function InitPrices(){
+            var pr1=80,Wpr1=70;
+            var pr2=50,Wpr2=40;
+            var pr3=40,Wpr3=30;
+            var TaxRate=8.75;
+        //text inside the text box
+            document.getElementById("span1").innerHTML="Price: $"+pr1;
+            document.getElementById("span2").innerHTML="Price: $"+pr2;
+            document.getElementById("span3").innerHTML="Price: $"+pr3;
+        }
+        //The Calculation of all the items
+        function ProcessOrder(){
+            var pr1=80,Wpr1=70;
+            var pr2=50,Wpr2=40;
+            var pr3=40,Wpr3=30;
+            var TaxRate=8.75;
+        //quantity for each of the three items
+            var q1=parseInt(document.getElementById("qty1").value);
+            var q2=parseInt(document.getElementById("qty2").value);
+            var q3=parseInt(document.getElementById("qty3").value);
+            var CustomerSubtotal=(pr1*q1)+(pr2*q2)+(pr3*q3);
+            var CompanySubtotal=(Wpr1*q1)+(Wpr2*q2)+(Wpr3*q3);
+            var Profit=(CustomerSubtotal-CompanySubtotal);
+            var Tax=(CustomerSubtotal*(8.75/100)).toFixed(2);
+            var TotalItems=q1+q2+q3;
+            var Shipping=0;
+            var op=(document.getElementById("output"));
+        //determines the shipping cost based on the Customers Subtotal
+            if (CustomerSubtotal<100){
+                Shipping=25
+            }else if(CustomerSubtotal>=100&&CustomerSubtotal<=200){
+                Shipping=10
+            }else{
+                Shipping=0
+            }
+            var CustomerTotal=parseFloat(CustomerSubtotal)+parseFloat(Tax)+parseFloat(Shipping);
+            //This build prints the receipt
+            var build=" ";{
+                build+="CUSTOMER ORDER DETAILS"+ "<br>";
+                build+="Subtotal: $"+ CustomerSubtotal+"<br>";
+                build+="Tax: $"+Tax+"<br>";
+                build+="Shipping & Handling: $"+Shipping+"<br>";
+                build+="Customer Total: $"+CustomerTotal+"<br>";
+                build+="----------------------------------------------"+"<br>";
+                build+="ORDER DETAILS FOR COMPANY"+ "<br>";
+                build+="Total Items Sold: "+TotalItems+"<br>";
+                build+="Customer Subtotal: $"+CustomerSubtotal+"<br>";
+                build+="Company Subtotal: $"+CompanySubtotal+"<br>";
+                build+="Profit/Loss: $"+ Profit;
+                op.innerHTML=build;
+                }
+        }
+        
+    </script>
+    </head>
+    <body onload="InitPrices()"> 
+        <h1>Ben's Overpriced Cap Store</h1>
+        <!--Item1-->
+        <div id="Item">
+            <img src="BHat.jpg"><br>
+            <p>Black Nike Cap</p><br>
+            <span id="span1"></span>
+            <input type="text" id="qty1" value="0" placeholder="Enter #">
+        </div>
+        <!--Item2-->
+        <div id="Item">
+            <img src="RedHat.jpg"><br>
+            <p>Red Cap</p><br>
+            <span id="span2"></span>
+            <input type="text" id="qty2"value="0" placeholder="Enter #">
+        </div>
+        <!--Item3-->
+        <div id="Item">
+            <img src="BlueHat.jpg"><br>
+            <p>Blue Cap</p><br>
+            <span id="span3"></span>
+            <input type="text" id="qty3"value="0" placeholder="Enter #">
+        </div>
+        <br>
+        <button onclick="ProcessOrder()">Process Order</button>
+        <div id="output"></div>
+        
+    </body>
+    </html>
